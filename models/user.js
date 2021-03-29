@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const { Model } = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
   class User extends Model {
@@ -13,40 +13,40 @@ module.exports = (sequelize) => {
   }
   User.init({
     firstName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
+      /* validate: {
         notEmpty: {
           msg: 'A first name is required'
         }
-      }
+      } */
     },
     lastName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
+      /* validate: {
         notEmpty: {
           msg: 'A last name is required'
         }
-      }
+      } */
     },
     emailAddress: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      type: DataTypes.STRING,
+      /* allowNull: false,
       validate: {
         notEmpty: {
           msg: 'An email address is required'
         }
-      }
+      } */
     },
     password: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      type: DataTypes.STRING,
+     /*  allowNull: false,
       validate: {
         notEmpty: {
           msg: 'A password is required'
         }
-      }
+      } */
     }
   }, { sequelize })
 
