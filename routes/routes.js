@@ -54,6 +54,33 @@ router.get('/api/courses', asyncHandler(async (req, res) => {
   res.json(courses)
 }))
 
+router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
+  const course = await Course.findByPk(req.params.id, {
+    attributes: [
+      'title',
+      'description',
+      'estimatedTime',
+      'materialsNeeded'
+    ],
+    include: [
+      {
+        model: User,
+        attributes: [
+          'firstName',
+          'lastName',
+          'emailAddress'
+        ]
+      }
+    ]
+  })
+  if (course) {
+    res.json(course)
+  } else {
+    const error = new Error('Course Not Found')
+    error.status = 404
+    next(error)
+  }
+}))
 router.post('/api/courses', asyncHandler(async (req, res) => {
   try {
     await Course.create(req.body)
