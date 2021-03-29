@@ -100,4 +100,14 @@ router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
     next(error)
   }
 }))
+router.delete('/api/courses/:id', asyncHandler(async (req, res, next) => {
+  const course = await Course.findByPk(req.params.id)
+  try {
+    await course.destroy()
+    res.status(204).json()
+  } catch (error) {
+    res.status(403).json()
+    next(error)
+  }
+}))
 module.exports = router
