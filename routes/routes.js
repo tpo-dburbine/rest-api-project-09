@@ -1,3 +1,4 @@
+const e = require('express')
 const express = require('express')
 const router = express.Router()
 const User = require('../models').User
@@ -83,10 +84,20 @@ router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
 }))
 router.post('/api/courses', asyncHandler(async (req, res) => {
   try {
-    await Course.create(req.body)
-    res.location('/').status(201).json(req.body)
+    const course = await Course.create(req.body)
+    res.location('/api/courses/' + course.id).status(201).json(req.body)
   } catch (error) {
     res.status(400).json({ error })
+  }
+}))
+router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
+  const course = await Course.findByPk(req.params.id)
+  try {
+    await course.update(req.body)
+    res.status(204).json()
+  } catch (error) {
+    res.status(403).json()
+    next(error)
   }
 }))
 module.exports = router
