@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const { Model } = require('sequelize')
 
 module.exports = (sequelize) => {
-  class User extends Model {
+  class Course extends Model {
     // /**
     //  * Helper method for defining associations.
     //  * This method is not a part of Sequelize lifecycle.
@@ -11,48 +11,38 @@ module.exports = (sequelize) => {
     // static associate(models) {
     //   // define association here
   }
-  User.init({
-    firstName: {
+  Course.init({
+    title: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'A first name is required'
+          msg: 'A course name is required'
         }
       }
     },
-    lastName: {
-      type: Sequelize.STRING,
+    description: {
+      type: Sequelize.TEXT,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'A last name is required'
+          msg: 'A description is required'
         }
       }
     },
-    emailAddress: {
+    estimatedTime: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'An email address is required'
-        }
-      }
+      allowNull: false
     },
-    password: {
+    materialIsNeeded: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'A password is required'
-        }
-      }
+      allowNull: false
     }
   }, { sequelize })
 
-  User.associate = (models) => {
+  Course.associate = (models) => {
     // TODO Add associations.
-    User.hasMany(models.Course, {
+    Course.belongsTo(models.User, {
       foreignKey: {
         fieldName: 'userId',
         allowNull: false
@@ -60,5 +50,5 @@ module.exports = (sequelize) => {
     })
   }
 
-  return User
+  return Course
 }

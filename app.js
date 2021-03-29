@@ -4,6 +4,9 @@
 const express = require('express')
 const morgan = require('morgan')
 
+const userRoutes = require('./routes/user-routes')
+const courseRoutes = require('./routes/course-routes')
+
 /**
  * From Sequelize documentation - used for testing database connection (~line 56)
  */
@@ -25,6 +28,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to the REST API project!',
   });
 });
+
+app.use(userRoutes)
 
 // send 404 if no other route matched
 app.use((req, res) => {
