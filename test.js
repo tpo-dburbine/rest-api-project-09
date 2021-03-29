@@ -17,20 +17,43 @@ const { Sequelize, Op, Model, DataTypes } = require('sequelize')
 describe('The User Model', function () {
   const { User } = require('./models')
   it('should have a first name attribute', async function () {
-    const user = await User.findOne()
-    const actual = user.firstName
-    expect(actual).to.be(true)
+    const actual = await User.findOne().firstName
+    expect(actual).to.not.be.null
   })
   it('should have a last name attribute', async function () {
     const actual = await User.findOne().lastName
-    expect(actual).to.be(true)
+    expect(actual).to.not.be.null
   })
   it('should have an email attribute', async function () {
     const actual = await User.findOne().emailAddress
-    expect(actual).to.be(true)
+    expect(actual).to.not.be.null
   })
   it('should have a password attribute', async function () {
     const actual = await User.findOne().password
-    expect(actual).to.be(true)
+    expect(actual).to.not.be.null
+  })
+})
+
+describe('The Course Model', function () {
+  const { Course } = require('./models')
+  it('should have a title attribute', async function () {
+    const actual = await Course.findOne().title
+    expect(actual).to.not.be.null
+  })
+  it('should have a description attribute', async function () {
+    const actual = await Course.findOne().description
+    expect(actual).to.not.be.null
+  })
+  it('should have an estimatedTime attribute', async function () {
+    const actual = await Course.findOne().estimatedTime
+    expect(actual).to.not.be.null
+  })
+  it('should have a materialsNeeded attribute', async function () {
+    const actual = await Course.findOne().materialsNeeded
+    expect(actual).to.not.be.null
+  })
+  it('should have a userId attribute', async function () {
+    const actual = await Course.findOne().userId
+    expect(actual).to.not.be.null
   })
 })
