@@ -2,15 +2,7 @@ const Sequelize = require('sequelize')
 const { Model } = require('sequelize')
 
 module.exports = (sequelize) => {
-  class Course extends Model {
-    // /**
-    //  * Helper method for defining associations.
-    //  * This method is not a part of Sequelize lifecycle.
-    //  * The `models/index` file will call this method automatically.
-    //  */
-    // static associate(models) {
-    //   // define association here
-  }
+  class Course extends Model {}
   Course.init({
     title: {
       type: Sequelize.STRING,
@@ -39,7 +31,6 @@ module.exports = (sequelize) => {
   }, { sequelize })
 
   Course.associate = (models) => {
-    // TODO Add associations.
     Course.belongsTo(models.User, {
       foreignKey: {
         fieldName: 'userId',

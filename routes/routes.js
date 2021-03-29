@@ -1,10 +1,13 @@
-const e = require('express')
 const express = require('express')
 const router = express.Router()
 const User = require('../models').User
 const Course = require('../models').Course
-const createError = require('http-errors')
+const createError = require('http-errors') // May delete this line if not needed
 
+/**
+ * Async function to wrap around route handlers and forward errors to global error handler
+ * @param {*} cb 
+ */
 function asyncHandler (cb) {
   return async (req, res, next) => {
     try {
@@ -15,6 +18,12 @@ function asyncHandler (cb) {
   }
 }
 
+/**********************************************************
+ * USER ROUTES
+/**********************************************************/
+
+// A /api/users GET route that will return the currently authenticated user along with a 200 HTTP status code
+// Note: 200 HTTP status code is default
 router.get('/api/users', asyncHandler(async (req, res) => {
   const user = await User.findOne()
 
@@ -25,14 +34,23 @@ router.get('/api/users', asyncHandler(async (req, res) => {
   })
 }))
 
+// A /api/users POST route that will create a new user, set the Location header to "/",
+// and return a 201 HTTP status code and no content
 router.post('/api/users', asyncHandler(async (req, res) => {
   try {
     await User.create(req.body)
-    res.location('/').status(201).json(req.body)
+    res.location('/').status(201).json()
   } catch (error) {
     res.status(400).json({ error })
   }
 }))
+
+/**********************************************************
+ * COURSES ROUTES
+/**********************************************************/
+
+// A /api/courses GET route that will return a list of all courses including the User that owns each course
+// and a 200 HTTP status code (note: 200 HTTP status code is default)
 router.get('/api/courses', asyncHandler(async (req, res) => {
   const courses = await Course.findAll({
     attributes: [
@@ -55,6 +73,8 @@ router.get('/api/courses', asyncHandler(async (req, res) => {
   res.json(courses)
 }))
 
+// A /api/courses/:id GET route that will return the corresponding course along with the User that owns that course
+// and a 200 HTTP status code. (note: 200 HTTP status code is default)
 router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id, {
     attributes: [
@@ -74,6 +94,8 @@ router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
       }
     ]
   })
+
+  // Conditional that forwards error to global error handler if appropriate
   if (course) {
     res.json(course)
   } else {
@@ -82,6 +104,9 @@ router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
     next(error)
   }
 }))
+
+// A /api/courses POST route that will create a new course, set the Location header to the URI for the newly
+// created course, and return a 201 HTTP status code and no content
 router.post('/api/courses', asyncHandler(async (req, res) => {
   try {
     const course = await Course.create(req.body)
@@ -90,6 +115,9 @@ router.post('/api/courses', asyncHandler(async (req, res) => {
     res.status(400).json({ error })
   }
 }))
+
+// A /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no
+// content
 router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id)
   try {
@@ -100,6 +128,9 @@ router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
     next(error)
   }
 }))
+
+// A /api/courses/:id DELETE route that will delete the corresponding course and return a 204 HTTP status code and no
+// content
 router.delete('/api/courses/:id', asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id)
   try {
@@ -110,4 +141,6 @@ router.delete('/api/courses/:id', asyncHandler(async (req, res, next) => {
     next(error)
   }
 }))
+
+// Exported for use in app.js
 module.exports = router

@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const routes = require('./routes/routes')
 
 /**
- * From Sequelize documentation - used for testing database connection (~line 56)
+ * From Sequelize documentation - used for testing database connection (~line 67)
  */
 const { Sequelize, Op, Model, DataTypes } = require('sequelize')
 const sequelize = new Sequelize('sqlite::memory:')
@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
   });
 });
 
+// Use routes
 app.use(routes)
 
 // send 404 if no other route matched
