@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models').User
 const Course = require('../models').Course
-const createError = require('http-errors') // May delete this line if not needed
+const { authenticateUser } = require('../middleware/user-auth')
 
 /**
  * Async function to wrap around route handlers and forward errors to global error handler
@@ -24,8 +24,8 @@ function asyncHandler (cb) {
 
 // A /api/users GET route that will return the currently authenticated user along with a 200 HTTP status code
 // Note: 200 HTTP status code is default
-router.get('/api/users', asyncHandler(async (req, res) => {
-  const user = await User.findOne()
+router.get('/api/users', authenticateUser, asyncHandler(async (req, res) => {
+  const user = req.currentUser
 
   res.json({
     firstName: user.firstName,

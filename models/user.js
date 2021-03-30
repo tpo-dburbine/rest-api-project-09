@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const { Model, DataTypes } = require('sequelize')
+const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize) => {
   class User extends Model {}
@@ -40,12 +41,27 @@ module.exports = (sequelize) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      set (val) {
+        if (val === this.password) {
+          const hashedPassword = bcrypt.hashSync(val, 10)
+          this.setDataValue('password', hashedPassword)
+        }
+      },
       validate: {
         notEmpty: {
           msg: 'A password is required'
         }
       }
     }
+   /*  confirmedPassword: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Both passwords must match'
+        }
+      }
+    } */
   }, { sequelize })
 
   User.associate = (models) => {
