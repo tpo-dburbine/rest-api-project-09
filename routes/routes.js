@@ -43,6 +43,7 @@ router.post('/api/users', asyncHandler(async (req, res) => {
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       const validationErrors = error.errors.map(err => err.message)
+      console.log(User.hashedPassword)
       res.status(400).json({ validationErrors })
     } else {
       throw error
@@ -112,7 +113,7 @@ router.get('/api/courses/:id', asyncHandler(async (req, res, next) => {
 
 // A /api/courses POST route that will create a new course, set the Location header to the URI for the newly
 // created course, and return a 201 HTTP status code and no content
-router.post('/api/courses', asyncHandler(async (req, res) => {
+router.post('/api/courses', authenticateUser, asyncHandler(async (req, res) => {
   try {
     const course = await Course.create(req.body)
     res.location('/api/courses/' + course.id).status(201).json(req.body)
@@ -128,11 +129,16 @@ router.post('/api/courses', asyncHandler(async (req, res) => {
 
 // A /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no
 // content
-router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
+router.put('/api/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id)
+  const user = req.currentUser
   try {
-    await course.update(req.body)
-    res.status(204).json()
+    if (user.id === course.userId) {
+      await course.update(req.body)
+      res.status(204).json()
+    } else {
+      res.status(403).json()
+    }
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       const validationErrors = error.errors.map(err => err.message)
@@ -145,11 +151,16 @@ router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
 
 // A /api/courses/:id DELETE route that will delete the corresponding course and return a 204 HTTP status code and no
 // content
-router.delete('/api/courses/:id', asyncHandler(async (req, res, next) => {
+router.delete('/api/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id)
+  const user = req.currentUser
   try {
-    await course.destroy()
-    res.status(204).json()
+    if (user.id === course.userId) {
+      await course.destroy()
+      res.status(204).json()
+    } else {
+      res.status(403).json()
+    }
   } catch (error) {
     res.status(403).json()
     next(error)

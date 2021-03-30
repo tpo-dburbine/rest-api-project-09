@@ -42,10 +42,8 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       set (val) {
-        if (val === this.password) {
-          const hashedPassword = bcrypt.hashSync(val, 10)
-          this.setDataValue('password', hashedPassword)
-        }
+        const hashedPassword = bcrypt.hashSync(val, 10)
+        this.setDataValue('password', hashedPassword)
       },
       validate: {
         notEmpty: {
@@ -53,15 +51,6 @@ module.exports = (sequelize) => {
         }
       }
     }
-   /*  confirmedPassword: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Both passwords must match'
-        }
-      }
-    } */
   }, { sequelize })
 
   User.associate = (models) => {
