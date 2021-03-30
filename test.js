@@ -17,19 +17,27 @@ const { Sequelize, Op, Model, DataTypes } = require('sequelize')
 describe('The User Model', function () {
   const { User } = require('./models')
   it('should have a first name attribute', async function () {
-    const actual = await User.findOne().firstName
+    const user = await User.findOne()
+    const actual = user.firstName
+    console.log('firstName: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have a last name attribute', async function () {
-    const actual = await User.findOne().lastName
+    const user = await User.findOne()
+    const actual = user.lastName
+    console.log('lastName: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have an email attribute', async function () {
-    const actual = await User.findOne().emailAddress
+    const user = await User.findOne()
+    const actual = user.emailAddress
+    console.log('emailAddress: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have a password attribute', async function () {
-    const actual = await User.findOne().password
+    const user = await User.findOne()
+    const actual = user.password
+    console.log('password: ' + actual)
     expect(actual).to.not.be.null
   })
 })
@@ -37,23 +45,33 @@ describe('The User Model', function () {
 describe('The Course Model', function () {
   const { Course } = require('./models')
   it('should have a title attribute', async function () {
-    const actual = await Course.findOne().title
+    const course = await Course.findOne()
+    const actual = course.title
+    console.log('title: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have a description attribute', async function () {
-    const actual = await Course.findOne().description
+    const course = await Course.findOne()
+    const actual = course.description
+    console.log('description: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have an estimatedTime attribute', async function () {
-    const actual = await Course.findOne().estimatedTime
+    const course = await Course.findOne()
+    const actual = course.estimatedTime
+    console.log('estimatedTime: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have a materialsNeeded attribute', async function () {
-    const actual = await Course.findOne().materialsNeeded
+    const course = await Course.findOne()
+    const actual = course.materialsNeeded
+    console.log('materialsNeeded: ' + actual)
     expect(actual).to.not.be.null
   })
   it('should have a userId attribute', async function () {
-    const actual = await Course.findOne().userId
+    const course = await Course.findOne()
+    const actual = course.userId
+    console.log('userId: ' + actual)
     expect(actual).to.not.be.null
   })
 })
