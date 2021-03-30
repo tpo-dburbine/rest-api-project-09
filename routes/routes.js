@@ -41,7 +41,12 @@ router.post('/api/users', asyncHandler(async (req, res) => {
     await User.create(req.body)
     res.location('/').status(201).json()
   } catch (error) {
-    res.status(400).json({ error })
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const validationErrors = error.errors.map(err => err.message)
+      res.status(400).json({ validationErrors })
+    } else {
+      throw error
+    }
   }
 }))
 
@@ -112,7 +117,12 @@ router.post('/api/courses', asyncHandler(async (req, res) => {
     const course = await Course.create(req.body)
     res.location('/api/courses/' + course.id).status(201).json(req.body)
   } catch (error) {
-    res.status(400).json({ error })
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const validationErrors = error.errors.map(err => err.message)
+      res.status(400).json({ validationErrors })
+    } else {
+      throw error
+    }
   }
 }))
 
@@ -124,8 +134,12 @@ router.put('/api/courses/:id', asyncHandler(async (req, res, next) => {
     await course.update(req.body)
     res.status(204).json()
   } catch (error) {
-    res.status(403).json()
-    next(error)
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const validationErrors = error.errors.map(err => err.message)
+      res.status(400).json({ validationErrors })
+    } else {
+      throw error
+    }
   }
 }))
 

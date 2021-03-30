@@ -25,9 +25,15 @@ module.exports = (sequelize) => {
     emailAddress: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        msg: 'The email address you entered already exists'
+      },
       validate: {
         notEmpty: {
           msg: 'An email address is required'
+        },
+        isEmail: {
+          msg: 'Please provide a valid email address'
         }
       }
     },
