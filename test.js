@@ -1,4 +1,4 @@
-const { expect } = require('chai')
+iconst { expect } = require('chai')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
@@ -21,6 +21,7 @@ describe('The User Model', function () {
     const actual = user.firstName
     console.log('firstName: ' + actual)
     expect(actual).to.not.be.null
+    // using null here, but not sure if there is something better to use? (could still be undefined and pass)
   })
   it('should have a last name attribute', async function () {
     const user = await User.findOne()
