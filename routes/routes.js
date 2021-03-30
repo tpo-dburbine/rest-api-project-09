@@ -161,7 +161,7 @@ router.delete('/api/courses/:id', authenticateUser, asyncHandler(async (req, res
       res.status(403).json()
     }
   } catch (error) {
-    res.status(403).json()
+    res.status(400).json()
     next(error)
   }
 }))
