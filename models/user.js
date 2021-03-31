@@ -1,4 +1,3 @@
-const Sequelize = require('sequelize')
 const { Model, DataTypes } = require('sequelize')
 const bcrypt = require('bcryptjs')
 

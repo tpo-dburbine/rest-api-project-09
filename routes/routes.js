@@ -6,7 +6,7 @@ const { authenticateUser } = require('../middleware/user-auth')
 
 /**
  * Async function to wrap around route handlers and forward errors to global error handler
- * @param {*} cb 
+ * @param {*} cb
  */
 function asyncHandler (cb) {
   return async (req, res, next) => {
@@ -119,6 +119,7 @@ router.post('/api/courses', authenticateUser, asyncHandler(async (req, res) => {
     res.location('/api/courses/' + course.id).status(201).json(req.body)
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      // errors property part of sequelize: https://sequelize.org/v3/api/errors/
       const validationErrors = error.errors.map(err => err.message)
       res.status(400).json({ validationErrors })
     } else {
@@ -141,6 +142,7 @@ router.put('/api/courses/:id', authenticateUser, asyncHandler(async (req, res) =
     }
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      // errors property part of sequelize: https://sequelize.org/v3/api/errors/
       const validationErrors = error.errors.map(err => err.message)
       res.status(400).json({ validationErrors })
     } else {

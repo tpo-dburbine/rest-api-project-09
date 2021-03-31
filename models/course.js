@@ -1,32 +1,31 @@
-const Sequelize = require('sequelize')
-const { Model } = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
   class Course extends Model {}
   Course.init({
     title: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'A course name is required'
+          msg: 'A course title is required'
         }
       }
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'A description is required'
+          msg: 'A course description is required'
         }
       }
     },
     estimatedTime: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     materialsNeeded: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     }
   }, { sequelize })
 
