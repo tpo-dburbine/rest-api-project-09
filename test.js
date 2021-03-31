@@ -27,7 +27,7 @@ const localhost = 'http://localhost:5000'
  * @param {string} method contains the type of request (get, put, post, delete)
  * @param {object} data contains the data to be submitted to the database
  * Credit to srijan439 for the solution https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
- * Shoutout to Craig Maples for finding and sharing this!!!
+ * Shoutout to Craig Maples for this!!!
  */
 function createToken (username, password, url, method, data) {
   const token = `${username}:${password}`
