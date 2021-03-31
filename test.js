@@ -29,13 +29,11 @@ const localhost = 'http://localhost:5000'
  * Credit to srijan439 for the solution https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
  * Shoutout to Craig Maples for finding and sharing this!!!
  */
-
 function createToken (username, password, url, method, data) {
   const token = `${username}:${password}`
   const encodedToken = Buffer.from(token).toString('base64')
-  return { method: method, url: url, data: data, headers: { Authorization: 'Basic '+ encodedToken } }
+  return { method: method, url: url, data: data, headers: { Authorization: 'Basic ' + encodedToken } }
 }
-
 
 /**********************************************************
  * TREEHOUSE REQUIREMENTS #4 - DEFINE THE MODELS
@@ -236,6 +234,7 @@ describe('The User GET route', function () {
 
     const axiosConfig = createToken(testEmail, testPassword, url, method)
     const response = await axios(axiosConfig)
+    console.log(response)
     const actual = response.data.emailAddress
     expect(actual).to.equal(testEmail)
   })
@@ -246,5 +245,4 @@ describe('The User GET route', function () {
   //   console.log('type of userId: ' + actual)
   //   expect(actual).to.match(/number/)
   // })
-  
 })

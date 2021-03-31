@@ -42,6 +42,7 @@ router.post('/api/users', asyncHandler(async (req, res) => {
     res.location('/').status(201).json()
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      // errors property part of sequelize: https://sequelize.org/v3/api/errors/
       const validationErrors = error.errors.map(err => err.message)
       res.status(400).json({ validationErrors })
     } else {
@@ -128,7 +129,7 @@ router.post('/api/courses', authenticateUser, asyncHandler(async (req, res) => {
 
 // A /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no
 // content
-router.put('/api/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
+router.put('/api/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
   const course = await Course.findByPk(req.params.id)
   const user = req.currentUser
   try {
