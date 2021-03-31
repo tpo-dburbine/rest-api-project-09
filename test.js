@@ -9,16 +9,6 @@ const axios = require('axios')
 // GLOBAL VARIABLES:
 const localhost = 'http://localhost:5000'
 
-// // Helper function for User model testing
-// const userModelTest = async ({user}) => {
-//   const User = require(global.appRoot + '/models/user')
-//   const testUser =
-//     await User.create({ user })
-//       .then(() => true)
-//       .catch((error) => false)
-//     return testUser
-// }
-
 /**
  * Function creates and returns an axios configuration object based on the params passed in
  * @param {string} username contains the users email address
@@ -38,8 +28,7 @@ function createToken (username, password, url, method, data) {
 /**********************************************************
  * TREEHOUSE REQUIREMENTS #4 - DEFINE THE MODELS
  * Tests to determine if models meet requirements
- * NOTE: These tests are insignificant, and were used
- * as a warm-up/practice
+ * NOTE: Generally better to just check models themselves
 /**********************************************************/
 
 // USER MODEL:

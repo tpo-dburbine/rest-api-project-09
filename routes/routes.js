@@ -5,7 +5,7 @@ const Course = require('../models').Course
 const { authenticateUser } = require('../middleware/user-auth')
 
 /**
- * Async function to wrap around route handlers and forward errors to global error handler
+ * Async function to wrap around route handlers and forward errors to global error handler (in app.js)
  * @param {*} cb
  */
 function asyncHandler (cb) {
@@ -169,5 +169,5 @@ router.delete('/api/courses/:id', authenticateUser, asyncHandler(async (req, res
   }
 }))
 
-// Exported for use in app.js
+// Exported for use in app.js (line 34)
 module.exports = router
